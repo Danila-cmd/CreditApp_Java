@@ -110,8 +110,6 @@ public class ClientController {
 
         Client client = new Client(id, nameSername, phone, email, passport);
 
-        System.out.println(client.getClientId());
-
         databaseHandler.addClient(client);
         clearAllFields();
 

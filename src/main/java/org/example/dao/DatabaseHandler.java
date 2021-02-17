@@ -34,6 +34,7 @@ public class DatabaseHandler extends Config {
     }
 
     public void addClient(Client client) {
+
         String createClient = readToString("sql/client.sql");
 
         try {
@@ -53,6 +54,31 @@ public class DatabaseHandler extends Config {
             throwables.printStackTrace();
         }
 
+    }
+
+    public void addCredit(Credit credit) {
+
+        String createCredit = readToString("sql/credit.sql");
+
+        try {
+
+            getConnection().createStatement().executeUpdate(createCredit);
+
+            String addCredit = "INSERT INTO credit VALUES (?,?,?)";
+
+            PreparedStatement preparedStatement = getConnection().prepareStatement(addCredit);
+
+            preparedStatement.setObject(1, credit.getCreditId());
+            preparedStatement.setInt(2, credit.getCreditLimit());
+            preparedStatement.setInt(3, (int) credit.getInterestRate());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("Credit add");
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public ObservableList<Client> selectAllClient() {
@@ -100,6 +126,18 @@ public class DatabaseHandler extends Config {
             PreparedStatement preparedStatement1 = getConnection().prepareStatement(updateClientById);
             preparedStatement1.executeUpdate();
 
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void deleteClientById(String id) {
+        String deleteById = "DELETE FROM client WHERE client_id = '" + id + "'";
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = getConnection().prepareStatement(deleteById);
+            preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -82,6 +82,7 @@ public class ClientEditController {
         passport.setCellValueFactory(new PropertyValueFactory<Client, SimpleStringProperty>("passportNumber"));
 
         clientTableView.setItems(getClient());
+
         clientTableView.setOnMousePressed(new EventHandler<MouseEvent>() {
 
             @Override
@@ -131,6 +132,52 @@ public class ClientEditController {
 
             DatabaseHandler databaseHandler = new DatabaseHandler();
             databaseHandler.updateClient(id, name, phone, email, passport);
+
+            Stage stage = (Stage) editClientButton.getScene().getWindow();
+            stage.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/clientEdit.fxml"));
+
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Изменить");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        removeButton.setOnAction(actionEvent -> {
+
+            System.out.println("DELETE");
+
+            UUID clientId = clientTableView.getSelectionModel().getSelectedItem().getClientId();
+
+            String id = clientId.toString();
+
+            DatabaseHandler databaseHandler = new DatabaseHandler();
+            databaseHandler.deleteClientById(id);
+
+            Stage stage = (Stage) removeButton.getScene().getWindow();
+            stage.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/clientEdit.fxml"));
+
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Изменить");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         });
 

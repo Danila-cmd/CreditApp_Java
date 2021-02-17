@@ -1,4 +1,5 @@
+/*C4*/SET SCHEMA PUBLIC
+create table if not exists\u000a    credit (credit_id UUID PRIMARY KEY NOT NULL,\u000a            credit_limit INT,\u000a            credit_interest_rate INT)
 /*C5*/SET SCHEMA PUBLIC
-DELETE FROM CLIENT WHERE CLIENT_ID='b86b31ee-8350-457d-9382-5d0d4cbde1f2'
-INSERT INTO CLIENT VALUES('b86b31ee-8350-457d-9382-5d0d4cbde1f2','Feduleev \u0414\u0430\u043d\u0438\u043b\u0430 Vladimirovich','89172112194','feduleevDanila@gmail.com','12312314134')
+INSERT INTO CREDIT VALUES('d319d425-1161-4797-bca5-91d2db6a27a7',5000,1)
 COMMIT

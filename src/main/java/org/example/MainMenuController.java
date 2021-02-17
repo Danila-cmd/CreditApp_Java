@@ -34,6 +34,7 @@ public class MainMenuController {
 
     @FXML
     void initialize() {
+
         clientButton.setOnAction(even -> {
 
                     Stage stage = (Stage) clientButton.getScene().getWindow();
@@ -55,16 +56,56 @@ public class MainMenuController {
                 }
         );
 
-        creditButton.setOnAction(even ->
-                System.out.println("Credit")
+        bankClient.setOnAction(even -> {
+
+                    Stage stage = (Stage) clientButton.getScene().getWindow();
+                    stage.close();
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/bankMenu.fxml"));
+
+                    Parent root = null;
+                    try {
+                        root = (Parent) loader.load();
+                        stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Банк");
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+        );
+
+        creditButton.setOnAction(even -> {
+
+                    Stage stage = (Stage) clientButton.getScene().getWindow();
+                    stage.close();
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/creditMenu.fxml"));
+
+                    Parent root = null;
+
+                    try {
+                        root = (Parent) loader.load();
+                        stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Кредит");
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
         );
 
         creditOfferButton.setOnAction(even ->
                 System.out.println("Credit offer")
         );
 
-        bankClient.setOnAction(even ->
-                System.out.println("Bank")
-        );
+
     }
 }
