@@ -2,6 +2,7 @@ package org.example.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TextField;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -70,7 +71,7 @@ public class DatabaseHandler extends Config {
 
             preparedStatement.setObject(1, credit.getCreditId());
             preparedStatement.setInt(2, credit.getCreditLimit());
-            preparedStatement.setInt(3, (int) credit.getInterestRate());
+            preparedStatement.setDouble(3, credit.getInterestRate());
 
             preparedStatement.executeUpdate();
 
@@ -79,6 +80,10 @@ public class DatabaseHandler extends Config {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public void addCreditOffer() {
+        String createCredit = readToString("sql/credit.sql");
     }
 
     public ObservableList<Client> selectAllClient() {
@@ -107,6 +112,30 @@ public class DatabaseHandler extends Config {
         return clients;
     }
 
+    public ObservableList<Credit> selectAllCredit() {
+
+        ObservableList<Credit> credits = FXCollections.observableArrayList();
+        String selectAllCredit = "SELECT * FROM credit";
+
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(selectAllCredit);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                credits.add(new Credit(
+                        (UUID) rs.getObject(1),
+                        rs.getInt(2),
+                        rs.getDouble(3)
+                ));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return credits;
+    }
+
     public void updateClient(String id, String name, String phone, String email, String passport) {
 
         String getClientById = "SELECT * FROM client WHERE client_id = '" + id + "'";
@@ -131,12 +160,44 @@ public class DatabaseHandler extends Config {
         }
     }
 
+    public void updateCredit(String creditId, String creditLimit, String interestRateField) {
+
+        String getCreditById = "SELECT * FROM credit WHERE credit_id = '" + creditId + "'";
+
+        try {
+
+            String updateCreditById = "UPDATE credit SET" +
+                    " credit_limit = '" + creditLimit + "'," +
+                    " credit_interest_rate = '" + interestRateField + "'" +
+                    " WHERE credit_id = '" + creditId + "'";
+
+            PreparedStatement preparedStatement1 = getConnection().prepareStatement(updateCreditById);
+            preparedStatement1.executeUpdate();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
     public void deleteClientById(String id) {
         String deleteById = "DELETE FROM client WHERE client_id = '" + id + "'";
         PreparedStatement preparedStatement = null;
 
         try {
             preparedStatement = getConnection().prepareStatement(deleteById);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void deleteCreditById(String creditId) {
+        String deleteCreditById = "DELETE FROM credit WHERE credit_id = '" + creditId + "'";
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = getConnection().prepareStatement(deleteCreditById);
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -153,5 +214,4 @@ public class DatabaseHandler extends Config {
         }
         return string;
     }
-
 }

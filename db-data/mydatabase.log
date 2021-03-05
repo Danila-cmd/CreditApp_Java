@@ -1,5 +1,0 @@
-/*C4*/SET SCHEMA PUBLIC
-create table if not exists\u000a    credit (credit_id UUID PRIMARY KEY NOT NULL,\u000a            credit_limit INT,\u000a            credit_interest_rate INT)
-/*C5*/SET SCHEMA PUBLIC
-INSERT INTO CREDIT VALUES('d319d425-1161-4797-bca5-91d2db6a27a7',5000,1)
-COMMIT

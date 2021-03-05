@@ -4,6 +4,7 @@ module org.example {
     requires java.sql;
     requires commons.io;
     requires hsqldb;
+    requires commons.math3;
 
     opens org.example to javafx.fxml;
     opens org.example.dao to javafx.base;

@@ -22,6 +22,7 @@ public class App extends Application {
 
         stage.setTitle("Банковское приложение");
         stage.setScene(new Scene(root, 700, 400));
+        stage.setResizable(false);
         stage.show();
     }
 

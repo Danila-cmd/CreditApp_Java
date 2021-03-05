@@ -81,30 +81,48 @@ public class MainMenuController {
 
         creditButton.setOnAction(even -> {
 
-                    Stage stage = (Stage) clientButton.getScene().getWindow();
-                    stage.close();
+            Stage stage = (Stage) clientButton.getScene().getWindow();
+            stage.close();
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/creditMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/creditMenu.fxml"));
 
-                    Parent root = null;
+            Parent root = null;
 
-                    try {
-                        root = (Parent) loader.load();
-                        stage = new Stage();
-                        stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.setTitle("Кредит");
-                        stage.setScene(new Scene(root));
-                        stage.show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            try {
+                root = (Parent) loader.load();
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Кредит");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                }
-        );
+        });
 
-        creditOfferButton.setOnAction(even ->
-                System.out.println("Credit offer")
-        );
+        creditOfferButton.setOnAction(even -> {
+
+            System.out.println("Credit offer");
+
+            Stage stage = (Stage) clientButton.getScene().getWindow();
+            stage.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/creditOffer.fxml"));
+
+            Parent root = null;
+
+            try {
+                root = (Parent) loader.load();
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Кредитное предложение");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
 
     }

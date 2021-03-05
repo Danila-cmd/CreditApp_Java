@@ -64,7 +64,7 @@ public class CreditController {
 
             UUID creditId = UUID.randomUUID();
             int limitCredit = Integer.parseInt(limitCreditField.getText());
-            int interestRate = Integer.parseInt(interestRateField.getText());
+            double interestRate = Double.parseDouble(interestRateField.getText());
 
             Credit credit = new Credit(creditId, limitCredit, interestRate);
 
@@ -76,6 +76,27 @@ public class CreditController {
 
         });
 
+        editCreditButton.setOnAction(actionEvent -> {
+            System.out.println("Edit");
+
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/creditEdit.fxml"));
+
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Редактировать");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
     }
 }
 

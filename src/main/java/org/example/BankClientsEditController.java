@@ -1,28 +1,29 @@
 package org.example;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.UUID;
-
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.dao.Client;
 import org.example.dao.DatabaseHandler;
-import org.hsqldb.Table;
 
-public class ClientEditController {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.UUID;
+
+public class BankClientsEditController {
 
     @FXML
     private ResourceBundle resources;
@@ -104,14 +105,14 @@ public class ClientEditController {
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.close();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/clientMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/bankMenu.fxml"));
 
             Parent root = null;
             try {
                 root = (Parent) loader.load();
                 stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Клиент");
+                stage.setTitle("Меню");
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (IOException e) {
@@ -153,6 +154,7 @@ public class ClientEditController {
         removeButton.setOnAction(actionEvent -> {
 
             UUID clientId = clientTableView.getSelectionModel().getSelectedItem().getClientId();
+
             String id = clientId.toString();
 
             DatabaseHandler databaseHandler = new DatabaseHandler();
@@ -174,9 +176,7 @@ public class ClientEditController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         });
-
     }
 
     private ObservableList<Client> getClient() {

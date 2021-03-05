@@ -6,9 +6,9 @@ public class Credit {
 
     private UUID creditId;
     private int creditLimit;
-    private int interestRate;
+    private double interestRate;
 
-    public Credit(UUID creditId, int creditLimit, int interestRate) {
+    public Credit(UUID creditId, int creditLimit, double interestRate) {
         this.creditId = creditId;
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;

@@ -56,7 +56,7 @@ public class BankController {
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.close();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/clientEdit.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/bankClientsEdit.fxml"));
 
             Parent root = null;
 
@@ -65,6 +65,26 @@ public class BankController {
                 stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.setTitle("Список клиентов");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        showCreditsButton.setOnAction(actionEvent -> {
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/bankCreditsEdit.fxml"));
+
+            Parent root = null;
+
+            try {
+                root = (Parent) loader.load();
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Список кредитов");
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (IOException e) {
