@@ -2,23 +2,23 @@ package org.example.dao;
 
 public class DataSchedule {
 
-    private int month;
+    private String month;
     private double summaPlatezha;
     private double teloKredita;
     private double teloProzentov;
 
-    public DataSchedule(int month, double summaPlatezha, double teloKredita, double teloProzentov) {
+    public DataSchedule(String month, double summaPlatezha, double teloKredita, double teloProzentov) {
         this.month = month;
         this.summaPlatezha = summaPlatezha;
         this.teloKredita = teloKredita;
         this.teloProzentov = teloProzentov;
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 

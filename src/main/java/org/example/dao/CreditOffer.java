@@ -1,39 +1,60 @@
 package org.example.dao;
 
+import java.util.UUID;
+
 public class CreditOffer {
 
-    private Client client;
-    private Credit credit;
-    private int creditValue;
+    private UUID id;
+    private String clientNameTelephoneEmailPassport;
+    private String bankOffer;
+    private int creditAmount;
+    private int year;
 
-    public CreditOffer(Client client, Credit credit, int creditValue) {
-        this.client = client;
-        this.credit = credit;
-        this.creditValue = creditValue;
+    public CreditOffer(UUID id, String clientNameTelephoneEmailPassport, String bankOffer, int creditAmount, int year) {
+        this.id = id;
+        this.clientNameTelephoneEmailPassport = clientNameTelephoneEmailPassport;
+        this.bankOffer = bankOffer;
+        this.creditAmount = creditAmount;
+        this.year = year;
     }
 
-    public Client getClient() {
-        return client;
+    public UUID getId() {
+        return id;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public Credit getCredit() {
-        return credit;
+    public String getClientNameTelephoneEmailPassport() {
+        return clientNameTelephoneEmailPassport;
     }
 
-    public void setCredit(Credit credit) {
-        this.credit = credit;
+    public void setClientNameTelephoneEmailPassport(String clientNameTelephoneEmailPassport) {
+        this.clientNameTelephoneEmailPassport = clientNameTelephoneEmailPassport;
     }
 
-    public int getCreditValue() {
-        return creditValue;
+    public String getBankOffer() {
+        return bankOffer;
     }
 
-    public void setCreditValue(int creditValue) {
-        this.creditValue = creditValue;
+    public void setBankOffer(String bankOffer) {
+        this.bankOffer = bankOffer;
     }
 
+    public int getCreditAmount() {
+        return creditAmount;
+    }
+
+    public void setCreditAmount(int creditAmount) {
+        this.creditAmount = creditAmount;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
 }

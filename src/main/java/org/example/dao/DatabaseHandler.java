@@ -82,8 +82,73 @@ public class DatabaseHandler extends Config {
         }
     }
 
-    public void addCreditOffer() {
-        String createCredit = readToString("sql/credit.sql");
+    public Client addCreditOffer(String id, String idBankOffer, int creditAmount, int yearCredit) {
+
+        String createCreditOffer = readToString("sql/creditOffer.sql");
+
+        Client client = null;
+        Credit credit = null;
+
+        try {
+
+            getConnection().createStatement().executeUpdate(createCreditOffer);
+
+            String getClientById = "SELECT * FROM client WHERE client_id = '" + id + "'";
+            String getBankOfferById = "SELECT * FROM credit WHERE credit_id = '" + idBankOffer + "'";
+
+            PreparedStatement preparedStatement = getConnection().prepareStatement(getClientById);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                client = new Client(
+                        (UUID) rs.getObject(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5)
+
+                );
+            }
+
+            PreparedStatement preparedStatementBankOffer = getConnection().prepareStatement(getBankOfferById);
+            ResultSet resultSetBankOffer = preparedStatementBankOffer.executeQuery();
+
+            while (resultSetBankOffer.next()) {
+                credit = new Credit(
+                        (UUID) resultSetBankOffer.getObject(1),
+                        resultSetBankOffer.getInt(2),
+                        resultSetBankOffer.getDouble(3)
+                );
+            }
+
+            System.out.println("CreditOffer add");
+
+            String insertClient = "INSERT INTO creditOffer VALUES (?,?,?,?,?)";
+
+            PreparedStatement preparedInsertClient = getConnection().prepareStatement(insertClient);
+
+            UUID uuid = UUID.randomUUID();
+            String nameTelephonePassport = client.getNameSerName() + " " + client.getPhoneNumber() + " " + client.getEmail() + " " + client.getPassportNumber();
+
+            String bankOffer = String.valueOf(credit.getCreditLimit()) + " " + String.valueOf(credit.getInterestRate());
+
+            System.out.println(bankOffer);
+
+            CreditOffer creditOffer1 = new CreditOffer(uuid, nameTelephonePassport, bankOffer, creditAmount, yearCredit);
+
+            preparedInsertClient.setObject(1, creditOffer1.getId());
+            preparedInsertClient.setString(2, creditOffer1.getClientNameTelephoneEmailPassport());
+            preparedInsertClient.setString(3, creditOffer1.getBankOffer());
+            preparedInsertClient.setInt(4, creditOffer1.getCreditAmount());
+            preparedInsertClient.setInt(5, creditOffer1.getYear());
+
+            preparedInsertClient.executeUpdate();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return client;
+
     }
 
     public ObservableList<Client> selectAllClient() {
@@ -134,6 +199,35 @@ public class DatabaseHandler extends Config {
         }
 
         return credits;
+    }
+
+    public ObservableList<CreditOffer> selectAllCreditOffer() {
+
+        ObservableList<CreditOffer> creditsOffer = FXCollections.observableArrayList();
+        String selectAllCreditOffer = "SELECT * FROM creditOffer";
+
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(selectAllCreditOffer);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                creditsOffer.add(
+                        new CreditOffer(
+                                (UUID) rs.getObject(1),
+                                rs.getString(2),
+                                rs.getString(3),
+                                rs.getInt(4),
+                                rs.getInt(5)
+                        )
+                );
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return creditsOffer;
+
     }
 
     public void updateClient(String id, String name, String phone, String email, String passport) {
@@ -213,5 +307,11 @@ public class DatabaseHandler extends Config {
             e.printStackTrace();
         }
         return string;
+    }
+
+    public void updateCreditOffer(String id, String nameTelephonePassport, String credit, String loanAmount, String year) {
+        String getCreditOfferById = "SELECT * FROM creditOffer WHERE creditOffer_id = '" + id + "'";
+        PreparedStatement preparedStatement;
+
     }
 }

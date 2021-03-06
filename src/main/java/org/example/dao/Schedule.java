@@ -4,6 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.math3.util.Precision;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 public class Schedule {
@@ -76,6 +79,7 @@ public class Schedule {
 
         double creditAll = loanAmountFieldText;
 
+        LocalDate dateCurrent = LocalDate.now();
 
         for (int i = 1; i <= convertToMonth(); i++) {
 
@@ -85,13 +89,12 @@ public class Schedule {
 
             if (i == convertToMonth()) {
                 amount = 0;
-                System.out.println(amount);
-            } else {
-                System.out.println(amount);
             }
 
             creditAll = amount;
-            dataSchedules.add(new DataSchedule(i, countPerMonth, teloKredita, teloProzenta));
+            String month = String.valueOf(dateCurrent);
+            dataSchedules.add(new DataSchedule(month, countPerMonth, teloKredita, teloProzenta));
+            dateCurrent = dateCurrent.plusMonths(1);
 
         }
         return dataSchedules;

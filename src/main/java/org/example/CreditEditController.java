@@ -133,8 +133,6 @@ public class CreditEditController {
 
         removeCreditButton.setOnAction(actionEvent -> {
 
-            System.out.println("delete");
-
             UUID id = creditTableView.getSelectionModel().getSelectedItem().getCreditId();
 
             String creditId = id.toString();

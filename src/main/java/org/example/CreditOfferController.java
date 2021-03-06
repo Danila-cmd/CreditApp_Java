@@ -1,6 +1,9 @@
 package org.example;
 
+import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
@@ -10,12 +13,17 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.example.dao.*;
 
 public class CreditOfferController {
@@ -87,7 +95,48 @@ public class CreditOfferController {
     private TableColumn<DataSchedule, SimpleDoubleProperty> summaProzentov;
 
     @FXML
+    private Button editButton;
+
+    @FXML
     void initialize() {
+
+        editButton.setOnAction(actionEvent -> {
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/editCreditOffer.fxml"));
+
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Редактирование");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        backButton.setOnAction(actionEvent -> {
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/mainMenu.fxml"));
+
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Меню");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         getLoanButton.setDisable(true);
 
@@ -103,6 +152,7 @@ public class CreditOfferController {
         creditTableView.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+
                 int creditLimit = creditTableView.getSelectionModel().getSelectedItem().getCreditLimit();
                 double interestRate = creditTableView.getSelectionModel().getSelectedItem().getInterestRate();
 
@@ -113,19 +163,19 @@ public class CreditOfferController {
         });
 
         client_id.setCellValueFactory(new PropertyValueFactory<>("clientId"));
+        credit_id.setVisible(false);
         nameClient.setCellValueFactory(new PropertyValueFactory<>("nameSerName"));
 
         clientsTable.setItems(getClient());
 
         credit_id.setCellValueFactory(new PropertyValueFactory<>("creditId"));
+        client_id.setVisible(false);
         limitCredit.setCellValueFactory(new PropertyValueFactory<>("creditLimit"));
         interestRate.setCellValueFactory(new PropertyValueFactory<>("interestRate"));
 
         creditTableView.setItems(getCredit());
 
         paymentScheduleButton.setOnAction(actionEvent -> {
-
-            System.out.println("Create schedule");
 
             UUID id = UUID.randomUUID();
             String name = nameClientField.getText();
@@ -147,21 +197,21 @@ public class CreditOfferController {
             getLoanButton.setDisable(false);
 
             getLoanButton.setOnAction(actionEvent1 -> {
-                System.out.println("Button");
 
                 String text = nameClientField.getText();
                 String loanAmountFieldText1 = loanAmountField.getText();
                 String limitCreditFieldText = limitCreditField.getText();
                 String interestRateFieldText = interestRateField.getText();
-                String loanAmountFieldText2 = loanAmountField.getText();
-                String yearForPayCreditFieldText = yearForPayCreditField.getText();
+                int loanAmountFieldText2 = Integer.parseInt(loanAmountField.getText());
+                int yearForPayCreditFieldText = Integer.parseInt(yearForPayCreditField.getText());
 
-                System.out.println(text);
-                System.out.println(loanAmountFieldText1);
-                System.out.println(limitCreditFieldText);
-                System.out.println(interestRateFieldText);
-                System.out.println(loanAmountFieldText2);
-                System.out.println(yearForPayCreditFieldText);
+                UUID clientId = clientsTable.getSelectionModel().getSelectedItem().getClientId();
+                String idBankOffer = String.valueOf(creditTableView.getSelectionModel().getSelectedItem().getCreditId());
+                String idClient = String.valueOf(clientId);
+
+                DatabaseHandler db = new DatabaseHandler();
+                Client client = db.addCreditOffer(idClient, idBankOffer, loanAmountFieldText2, yearForPayCreditFieldText);
+
             });
 
         });
