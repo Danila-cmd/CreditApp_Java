@@ -174,7 +174,6 @@ public class ClientEditController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         });
 
     }

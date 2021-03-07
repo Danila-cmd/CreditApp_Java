@@ -105,7 +105,50 @@ public class CreditOfferEditController {
             String year = yearForPayCreditField.getText();
 
             DatabaseHandler databaseHandler = new DatabaseHandler();
-            databaseHandler.updateCreditOffer(id,nameTelephonePassport,credit,loanAmount,year);
+            databaseHandler.updateCreditOffer(id, nameTelephonePassport, credit, loanAmount, year);
+
+            Stage stage = (Stage) editCreditOffer.getScene().getWindow();
+            stage.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/editCreditOffer.fxml"));
+
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Редактирование");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        deleteCreditOffer.setOnAction(actionEvent -> {
+
+            String id = String.valueOf(schedulePayment.getSelectionModel().getSelectedItem().getId());
+
+            DatabaseHandler db = new DatabaseHandler();
+            db.deleteCreditOffer(id);
+
+            Stage stage = (Stage) deleteCreditOffer.getScene().getWindow();
+            stage.close();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/editCreditOffer.fxml"));
+
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Редактирование");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         });
 

@@ -254,6 +254,32 @@ public class DatabaseHandler extends Config {
         }
     }
 
+    public void updateCreditOffer(String id, String nameTelephonePassport, String credit, String loanAmount, String year) {
+
+        String getCreditOfferById = "SELECT * FROM creditOffer WHERE credit_id = '" + id + "'";
+        PreparedStatement preparedStatement = null;
+
+        try {
+
+            preparedStatement = getConnection().prepareStatement(getCreditOfferById);
+
+            String updateCreditOffer = "UPDATE creditOffer SET" +
+                    " client_data = '" + nameTelephonePassport + "'," +
+                    " credit_data = '" + credit + "'," +
+                    " credit_amount = '" + loanAmount + "'," +
+                    " credit_year = '" + year + "'" +
+                    " WHERE credit_id = '" + id + "'";
+
+            PreparedStatement preparedStatement1 = getConnection().prepareStatement(updateCreditOffer);
+            preparedStatement1.executeUpdate();
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
     public void updateCredit(String creditId, String creditLimit, String interestRateField) {
 
         String getCreditById = "SELECT * FROM credit WHERE credit_id = '" + creditId + "'";
@@ -286,6 +312,19 @@ public class DatabaseHandler extends Config {
         }
     }
 
+    public void deleteCreditOffer(String id) {
+        String deleteCreditOfferById = "DELETE FROM creditOffer WHERE credit_id = '" + id + "'";
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = getConnection().prepareStatement(deleteCreditOfferById);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
     public void deleteCreditById(String creditId) {
         String deleteCreditById = "DELETE FROM credit WHERE credit_id = '" + creditId + "'";
         PreparedStatement preparedStatement = null;
@@ -309,9 +348,4 @@ public class DatabaseHandler extends Config {
         return string;
     }
 
-    public void updateCreditOffer(String id, String nameTelephonePassport, String credit, String loanAmount, String year) {
-        String getCreditOfferById = "SELECT * FROM creditOffer WHERE creditOffer_id = '" + id + "'";
-        PreparedStatement preparedStatement;
-
-    }
 }
