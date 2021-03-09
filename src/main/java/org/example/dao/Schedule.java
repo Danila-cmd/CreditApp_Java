@@ -4,9 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.math3.util.Precision;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 public class Schedule {
@@ -22,46 +20,6 @@ public class Schedule {
         this.limitCredit = limitCredit;
         this.interestRate = interestRate;
         this.loanAmountFieldText = loanAmountFieldText;
-        this.yearForPayCredit = yearForPayCredit;
-    }
-
-    public UUID getSchedule_id() {
-        return schedule_id;
-    }
-
-    public void setSchedule_id(UUID schedule_id) {
-        this.schedule_id = schedule_id;
-    }
-
-    public int getLimitCredit() {
-        return limitCredit;
-    }
-
-    public void setLimitCredit(int limitCredit) {
-        this.limitCredit = limitCredit;
-    }
-
-    public double getInterestRate() {
-        return interestRate;
-    }
-
-    public void setInterestRate(double interestRate) {
-        this.interestRate = interestRate;
-    }
-
-    public int getLoanAmountFieldText() {
-        return loanAmountFieldText;
-    }
-
-    public void setLoanAmountFieldText(int loanAmountFieldText) {
-        this.loanAmountFieldText = loanAmountFieldText;
-    }
-
-    public int getYearForPayCredit() {
-        return yearForPayCredit;
-    }
-
-    public void setYearForPayCredit(int yearForPayCredit) {
         this.yearForPayCredit = yearForPayCredit;
     }
 
@@ -83,9 +41,9 @@ public class Schedule {
 
         for (int i = 1; i <= convertToMonth(); i++) {
 
-            double teloProzenta = Precision.round((((creditAll * interestRate) / 12) / 100), 2);
-            double teloKredita = Precision.round((countPerMonth - teloProzenta), 2);
-            double amount = Precision.round((creditAll - teloKredita), 2);
+            double bodyPercent = Precision.round((((creditAll * interestRate) / 12) / 100), 2);
+            double bodyCredit = Precision.round((countPerMonth - bodyPercent), 2);
+            double amount = Precision.round((creditAll - bodyCredit), 2);
 
             if (i == convertToMonth()) {
                 amount = 0;
@@ -93,7 +51,7 @@ public class Schedule {
 
             creditAll = amount;
             String month = String.valueOf(dateCurrent);
-            dataSchedules.add(new DataSchedule(month, countPerMonth, teloKredita, teloProzenta));
+            dataSchedules.add(new DataSchedule(month, countPerMonth, bodyCredit, bodyPercent));
             dateCurrent = dateCurrent.plusMonths(1);
 
         }

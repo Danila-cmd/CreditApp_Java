@@ -188,9 +188,9 @@ public class CreditOfferController {
             ObservableList<DataSchedule> dataSchedules = schedule.creditPayment();
 
             datePayment.setCellValueFactory(new PropertyValueFactory<>("month"));
-            countPayment.setCellValueFactory(new PropertyValueFactory<>("summaPlatezha"));
-            loanPaymentAmount.setCellValueFactory(new PropertyValueFactory<>("teloKredita"));
-            summaProzentov.setCellValueFactory(new PropertyValueFactory<>("teloProzentov"));
+            countPayment.setCellValueFactory(new PropertyValueFactory<>("amountOfPayment"));
+            loanPaymentAmount.setCellValueFactory(new PropertyValueFactory<>("loanBody"));
+            summaProzentov.setCellValueFactory(new PropertyValueFactory<>("bodyPercent"));
 
             schedulePayment.setItems(dataSchedules);
 
@@ -198,10 +198,6 @@ public class CreditOfferController {
 
             getLoanButton.setOnAction(actionEvent1 -> {
 
-                String text = nameClientField.getText();
-                String loanAmountFieldText1 = loanAmountField.getText();
-                String limitCreditFieldText = limitCreditField.getText();
-                String interestRateFieldText = interestRateField.getText();
                 int loanAmountFieldText2 = Integer.parseInt(loanAmountField.getText());
                 int yearForPayCreditFieldText = Integer.parseInt(yearForPayCreditField.getText());
 
@@ -211,6 +207,23 @@ public class CreditOfferController {
 
                 DatabaseHandler db = new DatabaseHandler();
                 Client client = db.addCreditOffer(idClient, idBankOffer, loanAmountFieldText2, yearForPayCreditFieldText);
+
+                Stage stage = (Stage) backButton.getScene().getWindow();
+                stage.close();
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/creditOffer.fxml"));
+
+                Parent root = null;
+                try {
+                    root = (Parent) loader.load();
+                    stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setTitle("Кредитное предложение");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             });
 

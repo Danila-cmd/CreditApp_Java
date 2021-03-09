@@ -3,15 +3,25 @@ package org.example.dao;
 public class DataSchedule {
 
     private String month;
-    private double summaPlatezha;
-    private double teloKredita;
-    private double teloProzentov;
+    private double amountOfPayment;
+    private double loanBody;
+    private double bodyPercent;
 
-    public DataSchedule(String month, double summaPlatezha, double teloKredita, double teloProzentov) {
+    public DataSchedule(String month, double amountOfPayment, double loanBody, double bodyPercent) {
         this.month = month;
-        this.summaPlatezha = summaPlatezha;
-        this.teloKredita = teloKredita;
-        this.teloProzentov = teloProzentov;
+        this.amountOfPayment = amountOfPayment;
+        this.loanBody = loanBody;
+        this.bodyPercent = bodyPercent;
+    }
+
+    @Override
+    public String toString() {
+        return "DataSchedule{" +
+                "month=" + month +
+                ", amountOfPayment=" + amountOfPayment +
+                ", loanBody=" + loanBody +
+                ", bodyPercent=" + bodyPercent +
+                '}';
     }
 
     public String getMonth() {
@@ -22,37 +32,27 @@ public class DataSchedule {
         this.month = month;
     }
 
-    public double getSummaPlatezha() {
-        return summaPlatezha;
+    public double getAmountOfPayment() {
+        return amountOfPayment;
     }
 
-    public void setSummaPlatezha(double summaPlatezha) {
-        this.summaPlatezha = summaPlatezha;
+    public void setAmountOfPayment(double amountOfPayment) {
+        this.amountOfPayment = amountOfPayment;
     }
 
-    public double getTeloKredita() {
-        return teloKredita;
+    public double getLoanBody() {
+        return loanBody;
     }
 
-    public void setTeloKredita(double teloKredita) {
-        this.teloKredita = teloKredita;
+    public void setLoanBody(double loanBody) {
+        this.loanBody = loanBody;
     }
 
-    public double getTeloProzentov() {
-        return teloProzentov;
+    public double getBodyPercent() {
+        return bodyPercent;
     }
 
-    public void setTeloProzentov(double teloProzentov) {
-        this.teloProzentov = teloProzentov;
-    }
-
-    @Override
-    public String toString() {
-        return "DataSchedule{" +
-                "month=" + month +
-                ", summaPlatezha=" + summaPlatezha +
-                ", teloKredita=" + teloKredita +
-                ", teloProzentov=" + teloProzentov +
-                '}';
+    public void setBodyPercent(double bodyPercent) {
+        this.bodyPercent = bodyPercent;
     }
 }

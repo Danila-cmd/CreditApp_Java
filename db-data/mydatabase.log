@@ -1,3 +1,113 @@
-/*C6*/SET SCHEMA PUBLIC
-DELETE FROM CREDITOFFER WHERE CREDIT_ID='a175f412-0289-43ee-8951-3cf5bf8bf78e'
+/*C1*/SET SCHEMA SYSTEM_LOBS
+INSERT INTO BLOCKS VALUES(0,2147483647,0)
 COMMIT
+/*C3*/SET SCHEMA PUBLIC
+create table if not exists\u000a    client (client_id UUID PRIMARY KEY NOT NULL,\u000a            client_name varchar(45),\u000a            phoneNumber varchar(45),\u000a            email varchar(45),\u000a            passportNumber varchar(45))
+/*C4*/SET SCHEMA PUBLIC
+INSERT INTO CLIENT VALUES('221bb61b-861d-433b-b79d-8b03dd461620','\u041a\u0438\u043d\u044f\u0435\u0432 \u0424\u043e\u043c\u0430 \u0421\u0435\u043c\u0435\u043d\u043e\u0432\u0438\u0447','89172555577','kinaevfoma@mail.ru','520022196')
+COMMIT
+DISCONNECT
+/*C5*/SET SCHEMA PUBLIC
+create table if not exists\u000a    client (client_id UUID PRIMARY KEY NOT NULL,\u000a            client_name varchar(45),\u000a            phoneNumber varchar(45),\u000a            email varchar(45),\u000a            passportNumber varchar(45))
+/*C6*/SET SCHEMA PUBLIC
+INSERT INTO CLIENT VALUES('f828a831-fc7b-48ad-a72e-be71b9d3f770','\u0411\u0435\u0440\u0434\u0430\u0441\u043e\u0432 \u0414\u043c\u0438\u0442\u0440\u0438\u0439 \u0413\u0440\u0438\u0433\u043e\u0440\u044c\u0435\u0432\u0438\u0447','89175012599','berdasov@gmail.com','14935314')
+COMMIT
+DISCONNECT
+/*C7*/SET SCHEMA PUBLIC
+create table if not exists\u000a    client (client_id UUID PRIMARY KEY NOT NULL,\u000a            client_name varchar(45),\u000a            phoneNumber varchar(45),\u000a            email varchar(45),\u000a            passportNumber varchar(45))
+/*C8*/SET SCHEMA PUBLIC
+INSERT INTO CLIENT VALUES('167f19e9-6163-4391-97af-4c0b8673eba4','\u041a\u0430\u0441\u043f\u0438\u0440\u043e\u0432\u0438\u0447 \u0418\u0440\u0438\u043d\u0430 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u043d\u0430','89172603388','kaspirovich@gmail.com','71249555')
+COMMIT
+DISCONNECT
+/*C9*/SET SCHEMA PUBLIC
+create table if not exists\u000a    client (client_id UUID PRIMARY KEY NOT NULL,\u000a            client_name varchar(45),\u000a            phoneNumber varchar(45),\u000a            email varchar(45),\u000a            passportNumber varchar(45))
+/*C10*/SET SCHEMA PUBLIC
+INSERT INTO CLIENT VALUES('3ddb09a6-81c8-472d-9245-34718d9b88c2','\u041a\u043e\u0440\u043e\u043b\u0435\u0432\u0430 \u0422\u0430\u0442\u044c\u044f\u043d\u0430 \u0412\u0438\u043a\u0442\u043e\u0440\u043e\u0432\u043d\u0430','89178417694','koroleva@gmail.com','64762188')
+COMMIT
+DISCONNECT
+/*C11*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C12*/SET SCHEMA PUBLIC
+create table if not exists\u000a    client (client_id UUID PRIMARY KEY NOT NULL,\u000a            client_name varchar(45),\u000a            phoneNumber varchar(45),\u000a            email varchar(45),\u000a            passportNumber varchar(45))
+/*C13*/SET SCHEMA PUBLIC
+INSERT INTO CLIENT VALUES('487dee86-fac6-4b1e-80bd-44654958f6f0','\u0421\u043e\u0440\u043e\u043a\u0430 \u0411\u043e\u0440\u0438\u0441 \u041b\u0435\u043e\u043d\u0438\u0434\u043e\u0432\u0438\u0447','89174653295','soroka@gmail.com','51140267')
+COMMIT
+DISCONNECT
+/*C14*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C15*/SET SCHEMA PUBLIC
+create table if not exists\u000a    credit (credit_id UUID PRIMARY KEY NOT NULL,\u000a            credit_limit INT,\u000a            credit_interest_rate DOUBLE)
+/*C16*/SET SCHEMA PUBLIC
+INSERT INTO CREDIT VALUES('6fc98e14-f391-4e6e-b08f-ab0c3a08e85c',700000,12.0E0)
+COMMIT
+DISCONNECT
+/*C17*/SET SCHEMA PUBLIC
+create table if not exists\u000a    credit (credit_id UUID PRIMARY KEY NOT NULL,\u000a            credit_limit INT,\u000a            credit_interest_rate DOUBLE)
+/*C18*/SET SCHEMA PUBLIC
+INSERT INTO CREDIT VALUES('551dfe8d-d16a-452b-954d-05968cea1261',500000,6.5E0)
+COMMIT
+DISCONNECT
+/*C19*/SET SCHEMA PUBLIC
+create table if not exists\u000a    credit (credit_id UUID PRIMARY KEY NOT NULL,\u000a            credit_limit INT,\u000a            credit_interest_rate DOUBLE)
+/*C20*/SET SCHEMA PUBLIC
+INSERT INTO CREDIT VALUES('2258be9a-7007-402b-b591-c6490317f058',1000000,5.0E0)
+COMMIT
+DISCONNECT
+/*C21*/SET SCHEMA PUBLIC
+create table if not exists\u000a    credit (credit_id UUID PRIMARY KEY NOT NULL,\u000a            credit_limit INT,\u000a            credit_interest_rate DOUBLE)
+/*C22*/SET SCHEMA PUBLIC
+INSERT INTO CREDIT VALUES('1662174c-0966-4937-9dda-c9b42a0ebac5',5000000,9.125E0)
+COMMIT
+DISCONNECT
+/*C23*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C24*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C25*/SET SCHEMA PUBLIC
+create table if not exists\u000a    credit (credit_id UUID PRIMARY KEY NOT NULL,\u000a            credit_limit INT,\u000a            credit_interest_rate DOUBLE)
+/*C26*/SET SCHEMA PUBLIC
+INSERT INTO CREDIT VALUES('528b390d-a533-498c-a22b-00a68c371ebb',10000000,3.9E0)
+COMMIT
+DISCONNECT
+/*C27*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C28*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C29*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C30*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C31*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C32*/SET SCHEMA PUBLIC
+create table if not exists\u000a    creditOffer (credit_id UUID PRIMARY KEY NOT NULL,\u000a            client_data varchar(250),\u000a            credit_data varchar(250),\u000a            credit_amount INT,\u000a            credit_year INT)
+/*C35*/SET SCHEMA PUBLIC
+INSERT INTO CREDITOFFER VALUES('140ba13d-28fa-4d06-a86f-66101cec188d','\u041a\u0430\u0441\u043f\u0438\u0440\u043e\u0432\u0438\u0447 \u0418\u0440\u0438\u043d\u0430 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u043d\u0430 89172603388 kaspirovich@gmail.com 71249555','500000 6.5',400000,5)
+COMMIT
+DISCONNECT
+/*C36*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C37*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C38*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C39*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C40*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C41*/SET SCHEMA PUBLIC
+create table if not exists\u000a    creditOffer (credit_id UUID PRIMARY KEY NOT NULL,\u000a            client_data varchar(250),\u000a            credit_data varchar(250),\u000a            credit_amount INT,\u000a            credit_year INT)
+/*C44*/SET SCHEMA PUBLIC
+INSERT INTO CREDITOFFER VALUES('410b4902-399a-4a83-8d45-5213abd591ad','\u0421\u043e\u0440\u043e\u043a\u0430 \u0411\u043e\u0440\u0438\u0441 \u041b\u0435\u043e\u043d\u0438\u0434\u043e\u0432\u0438\u0447 89174653295 soroka@gmail.com 51140267','10000000 3.9',10000000,10)
+COMMIT
+DISCONNECT
+/*C45*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C46*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C47*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C48*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C49*/SET SCHEMA PUBLIC
+DISCONNECT

@@ -2,7 +2,6 @@ package org.example.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TextField;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -19,7 +18,6 @@ public class DatabaseHandler extends Config {
 
         try {
             Class.forName("org.hsqldb.jdbc.JDBCDriver");
-            System.out.println("Connect ready ...");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -37,12 +35,13 @@ public class DatabaseHandler extends Config {
     public void addClient(Client client) {
 
         String createClient = readToString("sql/client.sql");
+        PreparedStatement preparedStatement = null;
 
         try {
             getConnection().createStatement().executeUpdate(createClient);
             String insert = "INSERT INTO client values (?, ?, ?, ?, ?)";
 
-            PreparedStatement preparedStatement = getConnection().prepareStatement(insert);
+            preparedStatement = getConnection().prepareStatement(insert);
             preparedStatement.setObject(1, client.getClientId());
             preparedStatement.setString(2, client.getNameSerName());
             preparedStatement.setString(3, client.getPhoneNumber());
@@ -51,8 +50,17 @@ public class DatabaseHandler extends Config {
 
             preparedStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement != null) {
+                try {
+                    connection.close();
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
@@ -60,6 +68,7 @@ public class DatabaseHandler extends Config {
     public void addCredit(Credit credit) {
 
         String createCredit = readToString("sql/credit.sql");
+        PreparedStatement preparedStatement = null;
 
         try {
 
@@ -67,7 +76,7 @@ public class DatabaseHandler extends Config {
 
             String addCredit = "INSERT INTO credit VALUES (?,?,?)";
 
-            PreparedStatement preparedStatement = getConnection().prepareStatement(addCredit);
+            preparedStatement = getConnection().prepareStatement(addCredit);
 
             preparedStatement.setObject(1, credit.getCreditId());
             preparedStatement.setInt(2, credit.getCreditLimit());
@@ -75,10 +84,17 @@ public class DatabaseHandler extends Config {
 
             preparedStatement.executeUpdate();
 
-            System.out.println("Credit add");
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null & preparedStatement != null) {
+                try {
+                    connection.close();
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -89,6 +105,10 @@ public class DatabaseHandler extends Config {
         Client client = null;
         Credit credit = null;
 
+        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatementBankOffer = null;
+        PreparedStatement preparedInsertClient = null;
+
         try {
 
             getConnection().createStatement().executeUpdate(createCreditOffer);
@@ -96,7 +116,7 @@ public class DatabaseHandler extends Config {
             String getClientById = "SELECT * FROM client WHERE client_id = '" + id + "'";
             String getBankOfferById = "SELECT * FROM credit WHERE credit_id = '" + idBankOffer + "'";
 
-            PreparedStatement preparedStatement = getConnection().prepareStatement(getClientById);
+            preparedStatement = getConnection().prepareStatement(getClientById);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -110,7 +130,7 @@ public class DatabaseHandler extends Config {
                 );
             }
 
-            PreparedStatement preparedStatementBankOffer = getConnection().prepareStatement(getBankOfferById);
+            preparedStatementBankOffer = getConnection().prepareStatement(getBankOfferById);
             ResultSet resultSetBankOffer = preparedStatementBankOffer.executeQuery();
 
             while (resultSetBankOffer.next()) {
@@ -121,18 +141,14 @@ public class DatabaseHandler extends Config {
                 );
             }
 
-            System.out.println("CreditOffer add");
-
             String insertClient = "INSERT INTO creditOffer VALUES (?,?,?,?,?)";
 
-            PreparedStatement preparedInsertClient = getConnection().prepareStatement(insertClient);
+            preparedInsertClient = getConnection().prepareStatement(insertClient);
 
             UUID uuid = UUID.randomUUID();
             String nameTelephonePassport = client.getNameSerName() + " " + client.getPhoneNumber() + " " + client.getEmail() + " " + client.getPassportNumber();
 
             String bankOffer = String.valueOf(credit.getCreditLimit()) + " " + String.valueOf(credit.getInterestRate());
-
-            System.out.println(bankOffer);
 
             CreditOffer creditOffer1 = new CreditOffer(uuid, nameTelephonePassport, bankOffer, creditAmount, yearCredit);
 
@@ -146,17 +162,29 @@ public class DatabaseHandler extends Config {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement != null && preparedStatementBankOffer != null && preparedInsertClient != null) {
+                try {
+                    connection.close();
+                    preparedStatement.close();
+                    preparedStatementBankOffer.close();
+                    preparedInsertClient.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return client;
-
     }
 
     public ObservableList<Client> selectAllClient() {
+
         ObservableList<Client> clients = FXCollections.observableArrayList();
         String selectAllClient = "SELECT * FROM client";
+        PreparedStatement preparedStatement = null;
 
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement(selectAllClient);
+            preparedStatement = getConnection().prepareStatement(selectAllClient);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -172,6 +200,15 @@ public class DatabaseHandler extends Config {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement != null) {
+                try {
+                    connection.close();
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return clients;
@@ -182,8 +219,11 @@ public class DatabaseHandler extends Config {
         ObservableList<Credit> credits = FXCollections.observableArrayList();
         String selectAllCredit = "SELECT * FROM credit";
 
+        PreparedStatement preparedStatement = null;
+
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement(selectAllCredit);
+
+            preparedStatement = getConnection().prepareStatement(selectAllCredit);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -196,8 +236,16 @@ public class DatabaseHandler extends Config {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement != null) {
+                try {
+                    connection.close();
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
         return credits;
     }
 
@@ -206,8 +254,10 @@ public class DatabaseHandler extends Config {
         ObservableList<CreditOffer> creditsOffer = FXCollections.observableArrayList();
         String selectAllCreditOffer = "SELECT * FROM creditOffer";
 
+        PreparedStatement preparedStatement = null;
+
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement(selectAllCreditOffer);
+            preparedStatement = getConnection().prepareStatement(selectAllCreditOffer);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -224,6 +274,15 @@ public class DatabaseHandler extends Config {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement != null) {
+                try {
+                    connection.close();
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return creditsOffer;
@@ -232,36 +291,38 @@ public class DatabaseHandler extends Config {
 
     public void updateClient(String id, String name, String phone, String email, String passport) {
 
-        String getClientById = "SELECT * FROM client WHERE client_id = '" + id + "'";
+        String updateClientById = "UPDATE client SET" +
+                " client_name = '" + name + "'," +
+                " phoneNumber = '" + phone + "'," +
+                " email = '" + email + "'," +
+                " passportNumber = '" + passport + "'" +
+                " WHERE client_id = '" + id + "'";
+
         PreparedStatement preparedStatement = null;
 
         try {
-
-            preparedStatement = getConnection().prepareStatement(getClientById);
-
-            String updateClientById = "UPDATE client SET" +
-                    " client_name = '" + name + "'," +
-                    " phoneNumber = '" + phone + "'," +
-                    " email = '" + email + "'," +
-                    " passportNumber = '" + passport + "'" +
-                    " WHERE client_id = '" + id + "'";
-
-            PreparedStatement preparedStatement1 = getConnection().prepareStatement(updateClientById);
-            preparedStatement1.executeUpdate();
+            preparedStatement = getConnection().prepareStatement(updateClientById);
+            preparedStatement.executeUpdate();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement != null) {
+                try {
+                    connection.close();
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public void updateCreditOffer(String id, String nameTelephonePassport, String credit, String loanAmount, String year) {
 
-        String getCreditOfferById = "SELECT * FROM creditOffer WHERE credit_id = '" + id + "'";
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement1 = null;
 
         try {
-
-            preparedStatement = getConnection().prepareStatement(getCreditOfferById);
 
             String updateCreditOffer = "UPDATE creditOffer SET" +
                     " client_data = '" + nameTelephonePassport + "'," +
@@ -270,37 +331,53 @@ public class DatabaseHandler extends Config {
                     " credit_year = '" + year + "'" +
                     " WHERE credit_id = '" + id + "'";
 
-            PreparedStatement preparedStatement1 = getConnection().prepareStatement(updateCreditOffer);
+            preparedStatement1 = getConnection().prepareStatement(updateCreditOffer);
             preparedStatement1.executeUpdate();
 
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement1 != null) {
+                try {
+                    connection.close();
+                    preparedStatement1.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
     }
 
     public void updateCredit(String creditId, String creditLimit, String interestRateField) {
 
-        String getCreditById = "SELECT * FROM credit WHERE credit_id = '" + creditId + "'";
+        String updateCreditById = "UPDATE credit SET" +
+                " credit_limit = '" + creditLimit + "'," +
+                " credit_interest_rate = '" + interestRateField + "'" +
+                " WHERE credit_id = '" + creditId + "'";
+
+        PreparedStatement preparedStatement1 = null;
 
         try {
-
-            String updateCreditById = "UPDATE credit SET" +
-                    " credit_limit = '" + creditLimit + "'," +
-                    " credit_interest_rate = '" + interestRateField + "'" +
-                    " WHERE credit_id = '" + creditId + "'";
-
-            PreparedStatement preparedStatement1 = getConnection().prepareStatement(updateCreditById);
+            preparedStatement1 = getConnection().prepareStatement(updateCreditById);
             preparedStatement1.executeUpdate();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement1 != null) {
+                try {
+                    connection.close();
+                    preparedStatement1.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
     }
 
     public void deleteClientById(String id) {
+
         String deleteById = "DELETE FROM client WHERE client_id = '" + id + "'";
         PreparedStatement preparedStatement = null;
 
@@ -309,10 +386,21 @@ public class DatabaseHandler extends Config {
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement != null) {
+                try {
+                    connection.close();
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
     }
 
     public void deleteCreditOffer(String id) {
+
         String deleteCreditOfferById = "DELETE FROM creditOffer WHERE credit_id = '" + id + "'";
         PreparedStatement preparedStatement = null;
 
@@ -321,11 +409,21 @@ public class DatabaseHandler extends Config {
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement != null) {
+                try {
+                    connection.close();
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
 
     public void deleteCreditById(String creditId) {
+
         String deleteCreditById = "DELETE FROM credit WHERE credit_id = '" + creditId + "'";
         PreparedStatement preparedStatement = null;
 
@@ -334,10 +432,21 @@ public class DatabaseHandler extends Config {
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            if (connection != null && preparedStatement != null) {
+                try {
+                    connection.close();
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
     }
 
     private String readToString(String fileName) {
+
         File file = new File(fileName);
         String string = null;
         try {
@@ -346,6 +455,7 @@ public class DatabaseHandler extends Config {
             e.printStackTrace();
         }
         return string;
+
     }
 
 }

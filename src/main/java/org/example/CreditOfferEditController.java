@@ -1,10 +1,5 @@
 package org.example;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.UUID;
-
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
@@ -23,6 +18,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.dao.CreditOffer;
 import org.example.dao.DatabaseHandler;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class CreditOfferEditController {
 
